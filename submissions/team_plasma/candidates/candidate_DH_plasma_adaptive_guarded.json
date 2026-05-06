@@ -1,0 +1,216 @@
+{
+  "mode": "local",
+  "seed": 42,
+  "device": "auto",
+  "benchmark_isolation": {
+    "enabled": true
+  },
+  "router": {
+    "enabled": false
+  },
+  "time_budget_sec": {
+    "local": 250,
+    "cloud": 1800.0
+  },
+  "exact_eval": {
+    "max_calls": {
+      "local": 12,
+      "cloud": 12
+    },
+    "allow_midrun": {
+      "local": true,
+      "cloud": true
+    }
+  },
+  "global_stage": {
+    "enabled": true,
+    "snapshot_every": 1,
+    "max_surrogate_edges": 14000,
+    "exact_snapshot_repair": {
+      "enabled": true,
+      "anchor_mode": "current",
+      "anchor_strength": 0.16,
+      "restore_iters": 3,
+      "strict_if_needed": true,
+      "max_iters": 48,
+      "fallback_iters": 24,
+      "strict_max_iters": 72,
+      "strict_fallback_iters": 54,
+      "max_pairs_per_iter": 12000
+    },
+    "dynamic_congestion": {
+      "enabled": true,
+      "q_boost_alpha": 0.45,
+      "net_down_beta": 0.38,
+      "trust_up_gamma": 0.34,
+      "q_peak_ref": 1.20,
+      "stage_names": ["P3"]
+    },
+    "plasma_control": {
+      "enabled": true,
+      "ratio_ref": 1.85,
+      "q_quantile": 0.90,
+      "rho_quantile": 0.90,
+      "q_rhs_alpha": 0.12,
+      "rho_rhs_alpha": 0.08,
+      "q_force_alpha": 0.28,
+      "rho_force_alpha": 0.20,
+      "hall_alpha": 0.14,
+      "dia_alpha": 0.45,
+      "balloon_alpha": 0.12,
+      "hot_alpha": 0.18,
+      "cold_alpha": 0.10,
+      "repulsion_alpha": 0.12,
+      "net_down_beta": 0.20,
+      "anchor_down_beta": 0.18,
+      "trust_up_gamma": 0.16,
+      "temp_split_ref": 0.24,
+      "temp_q_mix": 0.20,
+      "temp_rho_mix": 0.10,
+      "cap": 2.2,
+      "stage_names": ["P2", "P3"]
+    },
+    "knn_edges": {
+      "enabled": true,
+      "k": 8,
+      "weight": 0.16
+    },
+    "adaptive_scale": {
+      "enabled": true,
+      "reference_num_hard": 320.0,
+      "min_scale": 0.85,
+      "max_scale": 1.65
+    },
+    "pde": {
+      "picard_outer": 4,
+      "gs_iters": 28,
+      "omega": 1.1,
+      "damping": 0.65,
+      "eta": 0.22,
+      "kappa_base": 1.0,
+      "kappa_rho": 1.2,
+      "kappa_q": 0.85,
+      "kappa_psi": 0.35,
+      "psi_nonlinear_scale": 0.85,
+      "convergence_tol": 0.0001,
+      "rhs_softplus_beta": 8.0,
+      "wall_decay_frac": 0.12,
+      "density_target": 0.9,
+      "overflow_power": 1.2,
+      "q_focus_quantile": 0.70,
+      "q_focus_alpha": 0.60,
+      "q_dynamic_alpha": 0.90,
+      "dual_enabled": 1.0,
+      "hot_eta": 0.12,
+      "cold_eta": 0.32,
+      "hot_kappa_q": 1.2,
+      "cold_kappa_q": 0.55,
+      "hot_kappa_rho": 1.4,
+      "cold_kappa_rho": 1.0,
+      "dia_enabled": 1.0,
+      "balloon_enabled": 1.0,
+      "balloon_quantile": 0.92,
+      "balloon_topk": 12,
+      "balloon_sigma_frac": 0.18,
+      "balloon_power": 1.25,
+      "beta_plasma_alpha": 0.10,
+      "beta_hall_alpha": 0.25,
+      "beta_balloon_alpha": 0.25,
+      "beta_dia_alpha": 0.75
+    },
+    "stages": [
+      {
+        "name": "P1",
+        "steps": 8,
+        "lr": 0.085,
+        "grid_size": 16,
+        "trust_radius_frac": 0.05,
+        "rhs_weights": {
+          "rho": 1.1,
+          "q": 0.55,
+          "n": 0.25,
+          "wall": 0.9
+        },
+        "force_weights": {
+          "plasma": 0.86,
+          "hot": 0.05,
+          "cold": 0.03,
+          "rho_pressure": 0.08,
+          "q_pressure": 0.14,
+          "net": 0.42,
+          "repulsion": 0.18,
+          "anchor": 0.0
+        }
+      },
+      {
+        "name": "P2",
+        "steps": 8,
+        "lr": 0.06,
+        "grid_size": 24,
+        "trust_radius_frac": 0.032,
+        "rhs_weights": {
+          "rho": 1.25,
+          "q": 0.95,
+          "n": 0.32,
+          "wall": 0.7
+        },
+        "force_weights": {
+          "plasma": 0.84,
+          "hall": 0.04,
+          "dia": 0.04,
+          "balloon": 0.02,
+          "hot": 0.08,
+          "cold": 0.05,
+          "rho_pressure": 0.14,
+          "q_pressure": 0.24,
+          "net": 0.34,
+          "repulsion": 0.24,
+          "anchor": 0.0
+        }
+      },
+      {
+        "name": "P3",
+        "steps": 7,
+        "lr": 0.04,
+        "grid_size": 32,
+        "trust_radius_frac": 0.022,
+        "rhs_weights": {
+          "rho": 1.5,
+          "q": 1.15,
+          "n": 0.4,
+          "wall": 0.6
+        },
+        "force_weights": {
+          "plasma": 0.80,
+          "hall": 0.06,
+          "dia": 0.10,
+          "balloon": 0.04,
+          "hot": 0.10,
+          "cold": 0.06,
+          "rho_pressure": 0.18,
+          "q_pressure": 0.32,
+          "net": 0.28,
+          "repulsion": 0.30,
+          "anchor": 0.0
+        }
+      }
+    ]
+  },
+  "post_legal_global": {
+    "enabled": false
+  },
+  "legalizer": {
+    "gap": 0.0001,
+    "max_iters": 60,
+    "fallback_iters": 45,
+    "anchor_mode": "current",
+    "anchor_strength": 0.10,
+    "restore_iters": 2
+  },
+  "sa": {
+    "enabled": false
+  },
+  "soft_macro": {
+    "enabled": false
+  }
+}

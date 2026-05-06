@@ -1,0 +1,214 @@
+{
+    "mode":  "local",
+    "seed":  42,
+    "device":  "auto",
+    "time_budget_sec":  {
+                            "local":  180,
+                            "cloud":  1800.0
+                        },
+    "exact_eval":  {
+                       "max_calls":  {
+                                         "local":  12,
+                                         "cloud":  12
+                                     },
+                       "allow_midrun":  {
+                                            "local":  true,
+                                            "cloud":  true
+                                        }
+                   },
+    "global_stage":  {
+                         "enabled":  true,
+                         "snapshot_every":  1,
+                         "max_surrogate_edges":  14000,
+                         "knn_edges":  {
+                                           "enabled":  true,
+                                           "k":  8,
+                                           "weight":  0.16
+                                       },
+                         "adaptive_scale":  {
+                                                "enabled":  true,
+                                                "reference_num_hard":  320.0,
+                                                "min_scale":  0.85,
+                                                "max_scale":  1.65
+                                            },
+                         "pde":  {
+                                     "picard_outer":  4,
+                                     "gs_iters":  28,
+                                     "omega":  1.1,
+                                     "damping":  0.65,
+                                     "eta":  0.22,
+                                     "kappa_base":  1.0,
+                                     "kappa_rho":  1.2,
+                                     "kappa_q":  0.7,
+                                     "kappa_psi":  0.35,
+                                     "psi_nonlinear_scale":  0.85,
+                                     "convergence_tol":  0.0001,
+                                     "rhs_softplus_beta":  8.0,
+                                     "wall_decay_frac":  0.12,
+                                     "density_target":  0.9,
+                                     "overflow_power":  1.2
+                                 },
+                         "stages":  [
+                                        {
+                                            "name":  "P1",
+                                            "steps":  8,
+                                            "lr":  0.085,
+                                            "grid_size":  16,
+                                            "trust_radius_frac":  0.05,
+                                            "rhs_weights":  {
+                                                                "rho":  1.1,
+                                                                "q":  0.45,
+                                                                "n":  0.25,
+                                                                "wall":  0.9
+                                                            },
+                                            "force_weights":  {
+                                                                  "plasma":  1.0,
+                                                                  "rho_pressure":  0.0,
+                                                                  "q_pressure":  0.12,
+                                                                  "net":  0.42,
+                                                                  "repulsion":  0.18,
+                                                                  "anchor":  0.0
+                                                              }
+                                        },
+                                        {
+                                            "name":  "P2",
+                                            "steps":  8,
+                                            "lr":  0.06,
+                                            "grid_size":  24,
+                                            "trust_radius_frac":  0.032,
+                                            "rhs_weights":  {
+                                                                "rho":  1.25,
+                                                                "q":  0.85,
+                                                                "n":  0.32,
+                                                                "wall":  0.7
+                                                            },
+                                            "force_weights":  {
+                                                                  "plasma":  1.0,
+                                                                  "rho_pressure":  0.0,
+                                                                  "q_pressure":  0.24,
+                                                                  "net":  0.34,
+                                                                  "repulsion":  0.24,
+                                                                  "anchor":  0.0
+                                                              }
+                                        },
+                                        {
+                                            "name":  "P3",
+                                            "steps":  7,
+                                            "lr":  0.04,
+                                            "grid_size":  32,
+                                            "trust_radius_frac":  0.02,
+                                            "rhs_weights":  {
+                                                                "rho":  1.5,
+                                                                "q":  1.3,
+                                                                "n":  0.4,
+                                                                "wall":  0.6
+                                                            },
+                                            "force_weights":  {
+                                                                  "plasma":  1.0,
+                                                                  "rho_pressure":  0.0,
+                                                                  "q_pressure":  0.34,
+                                                                  "net":  0.16,
+                                                                  "repulsion":  0.44,
+                                                                  "anchor":  0.0
+                                                              }
+                                        }
+                                    ]
+                     },
+    "post_legal_global":  {
+                              "enabled":  false,
+                              "steps":  6,
+                              "lr":  0.02,
+                              "grid_size":  40,
+                              "trust_radius_frac":  0.012,
+                              "relegalize_every":  3,
+                              "max_budget_frac":  0.82,
+                              "rhs_weights":  {
+                                                  "rho":  1.35,
+                                                  "q":  1.15,
+                                                  "n":  0.14,
+                                                  "wall":  0.45
+                                              },
+                              "force_weights":  {
+                                                    "plasma":  1.0,
+                                                    "rho_pressure":  0.25,
+                                                    "q_pressure":  0.6,
+                                                    "net":  0.12,
+                                                    "repulsion":  0.38,
+                                                    "anchor":  0.0
+                                                }
+                          },
+    "legalizer":  {
+                      "gap":  0.0001,
+                      "max_iters":  60,
+                      "fallback_iters":  45
+                  },
+    "sa":  {
+               "enabled":  false,
+               "workers":  {
+                               "local":  3,
+                               "cloud":  32
+                           },
+               "elite_count":  1,
+               "sync_fraction":  0.33,
+               "epochs":  {
+                              "local":  3,
+                              "cloud":  60
+                          },
+               "proposals_per_worker":  {
+                                            "local":  18,
+                                            "cloud":  300
+                                        },
+               "adaptive_scale":  {
+                                      "enabled":  true,
+                                      "reference_num_hard":  320.0,
+                                      "min_scale":  0.85,
+                                      "max_scale":  2.25
+                                  },
+               "init_temperature":  0.95,
+               "min_temperature":  0.035,
+               "move_probs":  {
+                                  "shift":  0.46,
+                                  "swap":  0.21,
+                                  "attract":  0.2,
+                                  "cluster":  0.13
+                              },
+               "shift_sigma_scale":  0.075,
+               "cluster_radius_frac":  0.09,
+               "overlap_penalty":  11.5,
+               "density_penalty":  0.21,
+               "congestion_penalty":  0.15,
+               "anchor_penalty":  0.0,
+               "anchor_move_scale":  0.0,
+               "min_improvement_frac":  0.015,
+               "strict_legality_filter":  false,
+               "soft_opt_every_sync":  false,
+               "plasma_guidance":  {
+                                       "enabled":  true,
+                                       "grid_size":  24,
+                                       "recompute_every":  3,
+                                       "bias_scale":  0.28,
+                                       "q_bias_weight":  0.0,
+                                       "rho_bias_weight":  0.0,
+                                       "rhs_weights":  {
+                                                           "rho":  1.4,
+                                                           "q":  0.9,
+                                                           "n":  0.3,
+                                                           "wall":  0.52
+                                                       }
+                                   }
+           },
+    "soft_macro":  {
+                       "enabled":  false,
+                       "sync_num_steps":  [
+                                              8,
+                                              8,
+                                              8
+                                          ],
+                       "final_num_steps":  [
+                                               24,
+                                               24,
+                                               24
+                                           ],
+                       "final_use_current_loc":  true
+                   }
+}

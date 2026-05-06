@@ -1,0 +1,150 @@
+{
+  "mode": "cloud",
+  "seed": 42,
+  "device": "auto",
+  "time_budget_sec": {
+    "cloud": 2700.0
+  },
+  "exact_eval": {
+    "max_calls": {
+      "cloud": 14
+    },
+    "allow_midrun": {
+      "cloud": true
+    }
+  },
+  "global_stage": {
+    "knn_edges": {
+      "enabled": false,
+      "k": 6,
+      "weight": 0.0
+    },
+    "snapshot_every": 5,
+    "stages": [
+      {
+        "name": "P1",
+        "steps": 42,
+        "lr": 0.09,
+        "grid_size": 16,
+        "trust_radius_frac": 0.055,
+        "rhs_weights": {
+          "rho": 1.05,
+          "q": 0.3,
+          "n": 0.25,
+          "wall": 0.95
+        },
+        "force_weights": {
+          "plasma": 1.0,
+          "rho_pressure": 0.0,
+          "q_pressure": 0.0,
+          "net": 0.44,
+          "repulsion": 0.17,
+          "anchor": 0.0
+        }
+      },
+      {
+        "name": "P2",
+        "steps": 40,
+        "lr": 0.062,
+        "grid_size": 32,
+        "trust_radius_frac": 0.034,
+        "rhs_weights": {
+          "rho": 1.22,
+          "q": 0.68,
+          "n": 0.32,
+          "wall": 0.72
+        },
+        "force_weights": {
+          "plasma": 1.0,
+          "rho_pressure": 0.0,
+          "q_pressure": 0.0,
+          "net": 0.36,
+          "repulsion": 0.24,
+          "anchor": 0.0
+        }
+      },
+      {
+        "name": "P3",
+        "steps": 36,
+        "lr": 0.042,
+        "grid_size": 64,
+        "trust_radius_frac": 0.021,
+        "rhs_weights": {
+          "rho": 1.5,
+          "q": 1.0,
+          "n": 0.42,
+          "wall": 0.58
+        },
+        "force_weights": {
+          "plasma": 1.0,
+          "rho_pressure": 0.0,
+          "q_pressure": 0.0,
+          "net": 0.3,
+          "repulsion": 0.3,
+          "anchor": 0.0
+        }
+      }
+    ]
+  },
+  "post_legal_global": {
+    "enabled": true,
+    "steps": 10,
+    "lr": 0.018,
+    "grid_size": 48,
+    "trust_radius_frac": 0.011,
+    "relegalize_every": 4,
+    "max_budget_frac": 0.84,
+    "rhs_weights": {
+      "rho": 1.35,
+      "q": 1.2,
+      "n": 0.14,
+      "wall": 0.44
+    },
+    "force_weights": {
+      "plasma": 1.0,
+      "rho_pressure": 0.24,
+      "q_pressure": 0.62,
+      "net": 0.1,
+      "repulsion": 0.4,
+      "anchor": 0.0
+    }
+  },
+  "sa": {
+    "workers": {
+      "cloud": 32
+    },
+    "epochs": {
+      "cloud": 64
+    },
+    "proposals_per_worker": {
+      "cloud": 320
+    },
+    "plasma_guidance": {
+      "enabled": true,
+      "grid_size": 32,
+      "recompute_every": 5,
+      "bias_scale": 0.32,
+      "q_bias_weight": 0.16,
+      "rho_bias_weight": 0.05,
+      "rhs_weights": {
+        "rho": 1.4,
+        "q": 0.9,
+        "n": 0.32,
+        "wall": 0.55
+      }
+    }
+  },
+  "soft_macro": {
+    "enabled": true,
+    "sync_num_steps": [
+      12,
+      12,
+      12
+    ],
+    "final_num_steps": [
+      45,
+      45,
+      45
+    ]
+  }
+}

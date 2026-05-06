@@ -1,0 +1,25 @@
+{
+  "affected_rule": "at_small_softsea",
+  "matched_benchmarks": {
+    "ibm18": {
+      "num_hard_norm": 0.35625,
+      "soft_fill": 0.7131009783411504,
+      "init_overlap_rate": 0.6491228070175439,
+      "hard_fill": 0.08695318435204011,
+      "probe_q_p90": 2.7327661514282227,
+      "probe_q_p99": 8.459371566772461,
+      "probe_q_max": 11.631448745727539,
+      "probe_rho_p90": 2.5118843116622713e-10,
+      "probe_rho_p99": 1.3525137901306152,
+      "probe_rho_max": 1.6264543533325195,
+      "probe_q_rho_ratio": 2732766.1514282227,
+      "probe_psi_abs_mean": 1.8341052532196045,
+      "probe_psi_peak": 12.122095108032227,
+      "probe_temp_split": 0.05003071576356888,
+      "probe_residual_last": 0.01262244675308466
+    }
+  },
+  "old_ibm18_proxy": 1.7085820436477661,
+  "new_ibm18_proxy": 1.708544135093689,
+  "delta": 3.790855407714844e-05
+}
