@@ -30,11 +30,12 @@ The augmented TILOS-assisted versions still exist for research, but they are not
 If you only have two minutes, read these sections:
 
 1. [What This Submission Is](#what-this-submission-is)
-2. [Pure vs Augmented](#pure-vs-augmented)
-3. [How Plasma Becomes Placement](#how-plasma-becomes-placement)
-4. [Results](#results)
-5. [Research Lineage](#research-lineage)
-6. [Next Steps](#next-steps)
+2. [Why Plasma?](#why-plasma)
+3. [Pure vs Augmented](#pure-vs-augmented)
+4. [How Plasma Becomes Placement](#how-plasma-becomes-placement)
+5. [Results](#results)
+6. [Research Lineage](#research-lineage)
+7. [Next Steps](#next-steps)
 
 ---
 
@@ -59,6 +60,16 @@ We solve macro placement as plasma equilibrium.
 The proxy score is worse than augmented TILOS-assisted placement.
 The physics story is much stronger.
 ```
+
+## Why Plasma?
+
+I came into this challenge with no prior experience in macro placement, physical design, or hardware engineering. My background is in computational plasma physics, fusion, and scientific simulation, so I approached the problem from a completely different direction.
+
+The idea that immediately caught my attention was that macro placement is not just a set of independent positioning decisions. Every component affects many others through connectivity, congestion, density, and geometry. That felt familiar. In plasma physics, every particle, current, pressure gradient, and boundary condition influences the global equilibrium. Local changes can reshape the entire field.
+
+That connection made the challenge feel less like a hardware problem I had never seen before and more like an unfamiliar version of a problem I already cared about: how do complex interacting systems relax toward a constrained low-energy state?
+
+Team Plasma GS came from that analogy. Instead of starting from a classical placement heuristic, I tried to translate plasma ideas directly into placement: Grad-Shafranov equilibrium, current topology, pressure, two-fluid transport, sheath effects, and instability-driven refinements. The result is not the strongest proxy-score placer, but it is a genuine attempt to solve macro placement through the lens of plasma physics.
 
 ---
 
