@@ -1,10 +1,17 @@
 # Team Plasma GS: The Sun Also Places Macros
 
+[![Submission](https://img.shields.io/badge/submission-submissions%2Fteam__plasma-blue)](#run-it)
+[![Mode](https://img.shields.io/badge/mode-pure%20plasma-orange)](#pure-vs-augmented)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+[![Benchmarks](https://img.shields.io/badge/valid-17%2F17-brightgreen)](#results)
+
 > The Sun gave us light, weather, photosynthesis, seasons, suspiciously cinematic sunsets, and the long-term dream of fusion energy. We asked for one more thing: macro placement.
 >
 > The result is not the world's strongest placer. The Sun is busy. But it is a real plasma-physics macro placer, and that is the point.
 
 **Team Plasma GS** is a pure plasma / fusion-physics macro placement solver for the Partcl / HRT Macro Placement Challenge 2026. It treats chip placement as a Grad-Shafranov / MHD equilibrium problem: macros are current-bearing particles, nets induce current topology, congestion behaves like pressure, and placement is a relaxation toward a low-energy plasma state.
+
+This repository is intentionally small. It contains the public README, Apache 2.0 license, and the single locked submission package. Research notes, sweeps, logs, and augmented configs are not included.
 
 The active competition package is locked to:
 
@@ -26,7 +33,7 @@ If you only have two minutes, read these sections:
 2. [Pure vs Augmented](#pure-vs-augmented)
 3. [How Plasma Becomes Placement](#how-plasma-becomes-placement)
 4. [Results](#results)
-5. [Submission Readiness](#submission-readiness)
+5. [Next Steps](#next-steps)
 
 ---
 
@@ -128,6 +135,16 @@ Netlist + canvas
   -> exact proxy gate
   -> legal placement
 ```
+
+The important design choice is that the active placement-producing stages are plasma stages:
+
+| Stage | Classical TILOS Role | Pure Plasma Replacement |
+|---|---|---|
+| Initial macro placement | PLC / placement initialization | R1 plasma startup from current topology |
+| Global field | Analytical placement forces | Grad-Shafranov equilibrium field |
+| Soft macro motion | `optimize_stdcells` force-directed relaxation | R4 two-fluid transport |
+| Legalization | strict greedy legalization | R2 sheath / continuation legalization |
+| Refinement | local move search | exact-gated plasma instability moves |
 
 ---
 
@@ -441,11 +458,112 @@ Plasma-Fusion-Physics-Macro-Place-Algo/
 
 ---
 
-## For Reviewers
+## Next Steps
+
+The internal research notes point to a clear next generation of this project. None of these are required for the submitted package, but they are the most promising directions.
+
+### 1. Ab-Initio Plasma Parameters
+
+The current config is clean, but it still has many engineering constants. A stronger scientific version would derive nearly everything from a small set of plasma quantities:
+
+```text
+macro density -> Debye length
+Debye length  -> grid resolution
+thermal speed -> stable timestep
+Larmor radius -> background magnetic field
+collision rate -> damping / relaxation schedule
+```
+
+That would move the solver from "plasma-inspired with tuned parameters" toward "ab-initio plasma placement."
+
+### 2. Adjoint Proxy Gradients
+
+Stellarator optimization tools such as STELLOPT and SIMSOPT use adjoint gradients to optimize plasma equilibria. The same idea can be applied here:
+
+```text
+forward placement state
+  -> smooth proxy field
+  -> adjoint gradient
+  -> plasma-constrained update
+```
+
+This is the most direct path to improving congestion, because congestion dominates the current proxy gap.
+
+### 3. Stronger PIC / P3M
+
+The optional R5 module is a first pass at plasma Particle-In-Cell placement. The next version should make PIC more load-bearing:
+
+- spatially varying background `B` field,
+- magnetic mirror effects,
+- grad-B drift,
+- pairwise Biot-Savart attraction,
+- stronger exact-gated proposal portfolios.
+
+The useful research lesson was that one current loop per net loses too much pairwise information. P3M-style short-range pair forces plus long-range mesh fields are a better plasma analogue.
+
+### 4. Dimensionless Regime Selection
+
+Instead of benchmark-name routing, future configs should classify layouts with continuous plasma-like numbers:
+
+| Number | Placement Meaning |
+|---|---|
+| packing fraction | total macro area / canvas area |
+| net density | nets per unit canvas area |
+| hard ratio | hard macros / all macros |
+| connectivity | average weighted net degree |
+| aspect ratio | canvas anisotropy |
+
+That keeps the solver general while still letting it adapt to very different placement regimes.
+
+### 5. Plasma Instability Escape Moves
+
+Classical placers use annealing and local search to escape basins. Plasma has its own escape vocabulary:
+
+- tearing reconnection,
+- sawtooth crashes,
+- edge-localized mode bursts,
+- Taylor relaxation,
+- resonant magnetic perturbations.
+
+Those are not just metaphors. They suggest structured, topology-changing proposal moves that can be exact-gated by the placement proxy.
+
+---
+
+## A Two-Way Street
+
+The fun part is not only that plasma physics can be used for macro placement. The reverse direction is interesting too.
+
+Macro placement is a brutal optimization laboratory: rank-based congestion, hard legality constraints, topology preservation, limited runtime, and highly nonconvex objectives. If plasma-inspired algorithms can survive here, the tricks we learn may feed back into plasma simulation and fusion optimization:
+
+```mermaid
+flowchart LR
+    A[Plasma Physics] -->|fields, transport, sheaths, instabilities| B[Macro Placement]
+    B -->|fast proxy gates, discrete topology moves, layout stress tests| A
+
+    A:::plasma
+    B:::eda
+
+    classDef plasma fill:#e9f6ff,stroke:#0b5d7a,color:#111,stroke-width:2px;
+    classDef eda fill:#fff3cd,stroke:#9a6a00,color:#111,stroke-width:2px;
+```
+
+Possible feedback back into plasma work:
+
+- exact-gated proposal portfolios for expensive simulation loops,
+- discrete topology moves inspired by placement legalization,
+- congestion-like hotspot metrics for transport barriers and divertor loads,
+- fast surrogate fields that approximate expensive equilibrium solves,
+- benchmark-style stress tests for optimization robustness.
+
+That is the bigger bet behind Team Plasma GS: chip placement is not just a place to borrow plasma ideas. It can also become a playground for inventing optimization patterns that plasma simulation may borrow back.
+
+---
+
+## Final Note
 
 This is not a claim that plasma physics beats mature classical placement today. It does not.
 
-This is a claim that macro placement can be formulated, implemented, and submitted as a plasma equilibrium problem:
+It is a claim that macro placement can be formulated, implemented, and submitted as a plasma equilibrium problem:
 
 ```text
 R1 plasma startup
