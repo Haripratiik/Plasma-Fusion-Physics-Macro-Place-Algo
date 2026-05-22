@@ -322,8 +322,8 @@ That is a practical strategy, but it is not the pure plasma submission.
 
 | Mode | Proxy Strength | Physics Purity | Main Use |
 |---|---|---|---|
-| Pure plasma | Worse | Highest | Innovation submission |
-| Augmented TILOS + plasma | Better | Medium | Research / leaderboard-style experiments |
+| Pure plasma | Worse (3.37) | Highest | Innovation submission |
+| Augmented TILOS + plasma | Better (1.41) | Medium | Research / leaderboard-style experiments |
 | Classical TILOS-style placement | Best baseline behavior | Low for this project | Reference point |
 
 ---
