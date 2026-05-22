@@ -33,7 +33,8 @@ If you only have two minutes, read these sections:
 2. [Pure vs Augmented](#pure-vs-augmented)
 3. [How Plasma Becomes Placement](#how-plasma-becomes-placement)
 4. [Results](#results)
-5. [Next Steps](#next-steps)
+5. [Research Lineage](#research-lineage)
+6. [Next Steps](#next-steps)
 
 ---
 
@@ -455,6 +456,44 @@ Plasma-Fusion-Physics-Macro-Place-Algo/
 - R5 PIC/P3M works on some cases but is not robust enough for global activation.
 - Long benchmarks require conservative budget caps.
 - Future work should move dimensionless plasma regime selection earlier into R1/R4, not only late proposal stages.
+
+---
+
+## Research Lineage
+
+The internal research docs for this project were intentionally left out of the public repo, but the ideas came from a real paper trail. This section gives the reviewer-friendly version: what each reference contributed to the implementation story.
+
+### Plasma Simulation And Kinetic Theory
+
+| Reference | What We Borrowed |
+|---|---|
+| [Birdsall and Langdon, *Plasma Physics via Computer Simulation*](https://www.osti.gov/biblio/6702524) | Particle-in-cell thinking: particle-to-grid deposition, field solves, and grid-to-particle interpolation. |
+| [Qin et al., "Why is Boris algorithm so good?"](https://www.osti.gov/biblio/1090047) | The reason Boris-style charged-particle updates are stable enough to be useful as proposal dynamics. |
+| [Boris pusher historical reference](https://www.sciencedirect.com/science/article/pii/S0010465522002788) | The Lorentz-force particle-push lineage behind the optional R5 PIC module. |
+| [Bohm, *The Characteristics of Electrical Discharges in Magnetic Fields*](https://books.google.com/books/about/The_Characteristics_of_Electrical_Discha.html?id=NHV5AAAAIAAJ) | Bohm sheath criterion and boundary-wall physics used as the legalization analogy. |
+| [Stangeby, *The Plasma Boundary of Magnetic Fusion Devices*](https://openlibrary.org/books/OL22380912M/The_plasma_boundary_of_magnetic_fusion_devices) | Plasma-wall / scrape-off-layer intuition for boundary pressure and sheath handling. |
+
+### MHD, Equilibrium, And Instability
+
+| Reference | What We Borrowed |
+|---|---|
+| [Grad-Shafranov equation overview](https://en.wikipedia.org/wiki/Grad%E2%80%93Shafranov_equation) | The central equilibrium template: pressure, current, and geometry coupled through a flux field. |
+| [Boozer, "Plasma equilibrium with rational magnetic surfaces"](https://www.osti.gov/biblio/6063300) | Flux-coordinate and rational-surface thinking used in field-aligned transport and stability language. |
+| [Furth, Killeen, and Rosenbluth, "Finite-Resistivity Instabilities of a Sheet Pinch"](https://cir.nii.ac.jp/crid/1363107370207531008) | Tearing-mode inspiration for topology-changing refinement moves. |
+| [Ryutov, "Geometrical properties of a snowflake divertor"](https://doi.org/10.1063/1.2738399) | Snowflake-divertor intuition for splitting intense hot spots into multiple channels. |
+| [Ware, "Pinch Effect for Trapped Particles in a Tokamak"](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.25.15) | Ware-pinch style congestion/current coupling experiments. |
+| [Taylor, "Relaxation of Toroidal Plasma and Generation of Reverse Magnetic Fields"](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.33.1139) | Taylor relaxation as the conceptual basis for energy minimization under topology constraints. |
+
+### Placement And Optimization Context
+
+| Reference | What We Borrowed |
+|---|---|
+| [ePlace: Electrostatics Based Placement Using Nesterov's Method](https://cseweb.ucsd.edu/~jlu/papers/eplace-dac14.pdf) | The classical electrostatic placement baseline we deliberately did not use as the load-bearing mechanism in pure mode. |
+| [RePlAce: Advancing Solution Quality and Routability Validation in Global Placement](https://vlsicad.ucsd.edu/Publications/Journals/j126.pdf) | Modern analytical placement context: density, step-size control, and routability pressure. |
+| [DREAMPlace](https://research.nvidia.com/publication/2019-06_dreamplace-deep-learning-toolkit-enabled-gpu-acceleration-modern-vlsi-placement) | Differentiable / tensorized placement framing and the lesson that EDA objectives can be recast in other computational languages. |
+| [SIMSOPT: A flexible framework for stellarator optimization](https://doi.org/10.21105/joss.03525) | The strongest "two-way street" inspiration: plasma equilibria are optimized with software patterns that look a lot like constrained placement search. |
+
+These references are not a claim that the solver is a perfect physical simulator. They are the source map for the design vocabulary: fields, currents, sheaths, instabilities, exact gates, and variational relaxation.
 
 ---
 
