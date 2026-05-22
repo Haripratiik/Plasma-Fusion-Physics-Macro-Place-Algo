@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 [![Benchmarks](https://img.shields.io/badge/valid-17%2F17-brightgreen)](#results)
 
-> The Sun gave us light, weather, photosynthesis, seasons, suspiciously cinematic sunsets, and the long-term dream of fusion energy. We asked for one more thing: macro placement.
+> The Sun gave us light, weather, photosynthesis, seasons, suspiciously cinematic sunsets, life itself and the long-term dream of fusion energy. We asked for one more thing: macro placement.
 >
-> The result is not the world's strongest placer. The Sun is busy. But it is a real plasma-physics macro placer, and that is the point.
+> I'd put macro placement in the top 2 (with life) among the greatest gifts of our star, the Sun.
 
 **Team Plasma GS** is a pure plasma / fusion-physics macro placement solver for the Partcl / HRT Macro Placement Challenge 2026. It treats chip placement as a Grad-Shafranov / MHD equilibrium problem: macros are current-bearing particles, nets induce current topology, congestion behaves like pressure, and placement is a relaxation toward a low-energy plasma state.
 
