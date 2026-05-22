@@ -1660,7 +1660,7 @@ class TeamPlasmaPlacer:
                 if local_cost < best_cost - 1e-6:
                     if bool(self.cfg.diagnostics_enabled):
                         print(
-                            f"[team_plasma_gs][hard_refine] bench={benchmark.name} "
+                            f"[team_plasma][hard_refine] bench={benchmark.name} "
                             f"macro={int(macro_idx)} cost={local_cost:.6f} "
                             f"improvement={best_cost - local_cost:.6f}",
                             flush=True,
@@ -1706,7 +1706,7 @@ class TeamPlasmaPlacer:
                         self._trace_purity_event("ntm_suppression_retarget_success")
                         if bool(self.cfg.diagnostics_enabled):
                             print(
-                                f"[team_plasma_gs][ntm_suppression] bench={benchmark.name} "
+                                f"[team_plasma][ntm_suppression] bench={benchmark.name} "
                                 f"macros={ntm_k} beta={beta:.3f}",
                                 flush=True,
                             )
@@ -1792,7 +1792,7 @@ class TeamPlasmaPlacer:
             if scored is not None and cost is not None and float(cost) < best_cost - min_delta:
                 if bool(self.cfg.diagnostics_enabled):
                     print(
-                        f"[team_plasma_gs][thermal_hopping] bench={benchmark.name} "
+                        f"[team_plasma][thermal_hopping] bench={benchmark.name} "
                         f"trial={trial} cost={float(cost):.6f} improvement={best_cost - float(cost):.6f}",
                         flush=True,
                     )
@@ -1972,7 +1972,7 @@ class TeamPlasmaPlacer:
                     if cost < best_cost - 1e-6:
                         if bool(self.cfg.diagnostics_enabled):
                             print(
-                                f"[team_plasma_gs][flux_rope_cluster] bench={benchmark.name} "
+                                f"[team_plasma][flux_rope_cluster] bench={benchmark.name} "
                                 f"root={int(root)} macros={len(cluster)} scale={float(scale):.3f} "
                                 f"cost={cost:.6f} improvement={best_cost - cost:.6f}",
                                 flush=True,
@@ -2069,7 +2069,7 @@ class TeamPlasmaPlacer:
                 if scored is not None and cost is not None and float(cost) < best_cost - 1e-6:
                     if bool(self.cfg.diagnostics_enabled):
                         print(
-                            f"[team_plasma_gs][smooth_global] bench={benchmark.name} "
+                            f"[team_plasma][smooth_global] bench={benchmark.name} "
                             f"scale={scale:.3f} sign={sign:+.0f} macros={moved} "
                             f"cost={float(cost):.6f} improvement={best_cost - float(cost):.6f}",
                             flush=True,
@@ -2205,7 +2205,7 @@ class TeamPlasmaPlacer:
                     if scored is not None and cost is not None and float(cost) < best_cost - 1e-6:
                         if bool(self.cfg.diagnostics_enabled):
                             print(
-                                f"[team_plasma_gs][eigenmode] bench={benchmark.name} "
+                                f"[team_plasma][eigenmode] bench={benchmark.name} "
                                 f"mode={mode_idx} eig={eig:.4e} scale={float(scale):.3f} "
                                 f"sign={sign:+.0f} cost={float(cost):.6f} "
                                 f"improvement={best_cost - float(cost):.6f}",
@@ -2327,7 +2327,7 @@ class TeamPlasmaPlacer:
             if scored is not None and cost is not None and float(cost) < best_cost - 1e-6:
                 if bool(self.cfg.diagnostics_enabled):
                     print(
-                        f"[team_plasma_gs][tearing] bench={benchmark.name} "
+                        f"[team_plasma][tearing] bench={benchmark.name} "
                         f"{label} macros={cluster_len} cost={float(cost):.6f} "
                         f"improvement={best_cost - float(cost):.6f}",
                         flush=True,
@@ -2994,7 +2994,7 @@ class TeamPlasmaPlacer:
                 solver_name = "newton" if bool(self.cfg.use_newton_solver) else "picard"
                 residual_text = ",".join(f"{r:.3e}" for r in _trace.residuals[:8])
                 print(
-                    f"[team_plasma_gs][solver] bench={benchmark.name} outer={k} "
+                    f"[team_plasma][solver] bench={benchmark.name} outer={k} "
                     f"solver={solver_name} converged={_trace.converged} "
                     f"residuals={residual_text}",
                     flush=True,
@@ -3432,7 +3432,7 @@ class TeamPlasmaPlacer:
                             improvement = float(best_cost) - float(probe_cost)
                             if bool(self.cfg.diagnostics_enabled):
                                 print(
-                                    f"[team_plasma_gs][soft] bench={benchmark.name} "
+                                    f"[team_plasma][soft] bench={benchmark.name} "
                                     f"probe_cost={float(probe_cost):.6f} "
                                     f"improvement={improvement:.6f}",
                                     flush=True,
@@ -3463,7 +3463,7 @@ class TeamPlasmaPlacer:
                                 ):
                                     if bool(self.cfg.diagnostics_enabled):
                                         print(
-                                            f"[team_plasma_gs][soft] bench={benchmark.name} "
+                                            f"[team_plasma][soft] bench={benchmark.name} "
                                             f"refine_cost={float(refined_cost):.6f} "
                                             f"improvement={float(best_cost) - float(refined_cost):.6f}",
                                             flush=True,

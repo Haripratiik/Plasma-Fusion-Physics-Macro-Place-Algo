@@ -6,11 +6,13 @@
 
 **Team Plasma GS** is a pure plasma / fusion-physics macro placement solver for the Partcl / HRT Macro Placement Challenge 2026. It treats chip placement as a Grad-Shafranov / MHD equilibrium problem: macros are current-bearing particles, nets induce current topology, congestion behaves like pressure, and placement is a relaxation toward a low-energy plasma state.
 
-The active submission is the **pure plasma** version in:
+The active competition package is locked to:
 
 ```text
 submissions/team_plasma/
 ```
+
+**Team Plasma GS** is the algorithm/model name. **`submissions/team_plasma/`** is the folder that should be copied into, run from, and submitted for the challenge.
 
 The augmented TILOS-assisted versions still exist for research, but they are not the main submission.
 
