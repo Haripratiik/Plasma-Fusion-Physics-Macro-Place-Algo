@@ -160,6 +160,32 @@ The important design choice is that the active placement-producing stages are pl
 
 ---
 
+## Watch It Place (Pure Plasma, ibm03)
+
+![Pure-plasma staged optimization on ibm03](media/staged_ibm03_pure.gif)
+
+Every frame is a real, accepted placement captured live from the running
+solver. The animation walks the actual pipeline, with a persistent progress
+bar (top) showing which stage is active and the placement and descent graph
+held on screen throughout:
+
+- **R1 Plasma Startup** (purple) - graph current topology to flux bands to an initial macro plasma.
+- **Grad-Shafranov Equilibrium** (blue) - macros flow under the self-consistent `psi` field (one frame per Picard iteration).
+- **R4 Two-Fluid Transport** (teal) - soft macros relax as the fast electron species in the `psi` field.
+- **Instability Refinement** (orange) - Mercier / tearing / flux-rope cluster moves, each accepted only through the exact proxy gate.
+
+Every frame is also legalized through the **R2 Bohm-sheath gate**, so the
+animation is simultaneous evidence that the placement stays overlap-free. The
+banner (top-right) and the curve (bottom-right, dots colored by stage, black
+line = best so far) show the placement relaxing from the startup plasma toward
+a lower-energy equilibrium.
+
+This GIF is illustrative: the live capture adds per-iteration scoring overhead
+and uses a denser Picard schedule, so its exact final proxy can differ
+slightly from the clean official-harness numbers in [Results](#results).
+
+---
+
 ## How Plasma Becomes Placement
 
 The core analogy is variational: both placement and plasma equilibrium seek a low-energy state under constraints.
