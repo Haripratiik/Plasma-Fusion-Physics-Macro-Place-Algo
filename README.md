@@ -184,6 +184,45 @@ This GIF is illustrative: the live capture adds per-iteration scoring overhead
 and uses a denser Picard schedule, so its exact final proxy can differ
 slightly from the clean official-harness numbers in [Results](#results).
 
+### Plasma View of the Same Run
+
+![Plasma physics view -- Grad-Shafranov relaxation on ibm03](media/plasma_physics_ibm03.gif)
+
+Same placer, same benchmark, same code -- but rendered as a **fusion-style
+plasma simulation**. This is meant as visual proof that the solver really is
+doing plasma physics, not just borrowing the vocabulary. Every quantity on
+screen is read directly off the live placer tensors at each Picard iteration
+of the Grad-Shafranov main loop:
+
+- **Main panel** -- `psi(R,Z)` poloidal flux as a magma heatmap, with
+  **white flux-surface contours** nested around the **magnetic axis** (yellow
+  star, located at `arg max psi`). The cyan-tinted central region marks
+  cells where the **Mercier interchange-stability proxy is positive**, i.e.
+  where the pressure gradient is steep enough to be interchange-driven --
+  computed by the same `mercier_diagnostic` the placer itself uses.
+- **Hard macros** as current-bearing coils (yellow circles), **sized by
+  `|I_i|`** -- the per-macro effective current `I_i = I_0 * degree * area`.
+  **Soft macros** drawn as a faint **electron-density cloud**.
+- **Top-right radial profiles** -- `p'(psi)` (pressure gradient, red) and
+  `F(psi)` (toroidal-current term, blue), the two profile functions that
+  appear on the right-hand side of the Grad-Shafranov equation. These are
+  fitted by `fit_profiles` from the live density and `psi` fields at every
+  iteration -- not hand-tuned.
+- **Bottom-right** -- the **Grad-Shafranov residual** `||Delta* psi - rhs||`
+  on a log axis across all 30 captured Picard iterations, with the current
+  iteration highlighted. Watch it drop by orders of magnitude: this is the
+  numerical proof that the placer is actually **solving the equation**, not
+  just stylizing it.
+
+Why only the Grad-Shafranov stage? Because GS is the only stage that
+continuously evolves the plasma state per iteration. R1 plasma startup is
+one-shot, and R4 two-fluid transport and instability refinement both run on
+top of a `psi` field that has already been frozen after the GS loop finishes;
+the macros move there, the flux surfaces do not. The macro-placement GIF
+above covers all four stages; the two GIFs are intentionally complementary --
+placement view = the whole pipeline, plasma view = the equilibrium solve at
+its heart.
+
 ---
 
 ## How Plasma Becomes Placement
