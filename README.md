@@ -188,7 +188,12 @@ slightly from the clean official-harness numbers in [Results](#results).
 
 ![Plasma physics view -- Grad-Shafranov relaxation on ibm03](media/plasma_physics_ibm03.gif)
 
-Same run, rendered as a Grad-Shafranov equilibrium. Every value is read
+The placer isn't placing macros with plasma metaphors -- it's solving a real
+Grad-Shafranov plasma equilibrium where **macros *are* current-carrying
+coils**, **nets *are* the toroidal current topology**, and **congestion *is*
+pressure**. The equilibrium coil positions the solver converges to *are* the
+macro placement; the animation above just renders that same equilibrium in
+its native plasma form instead of as a chip layout. Every value is read
 live from the placer's tensors at each Picard iteration.
 
 - **Main panel** -- `psi(R,Z)` poloidal flux with nested **flux-surface
